@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Pour Anna</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="audioLock" class="audio-lock hidden"><div><span class="mini-wave"></span><p>Charlotte parle...</p></div></div>
+  <div id="jarvisLock" class="jarvis-lock hidden"><div><span class="jarvis-wave"></span><p>Jarvis parle...</p></div></div>
+  <div class="app-shell">
+    <section id="preStartScreen" class="screen pre-start-screen active">
+      <div class="pre-card">
+        <div class="headphone-anim" aria-hidden="true"><span class="ear left-ear"></span><span class="band"></span><span class="ear right-ear"></span></div>
+        <p class="overline">Avant de commencer</p>
+        <h1>Bienvenue dans cette application</h1>
+        <div id="preIntroScroll" class="pre-scroll">
+          <p>Bienvenue dans l’application que j’ai créée pour toi.</p>
+          <p>Ne te fie pas aux apparences : cette application peut cacher bien des surprises.</p>
+          <p>Ça reste une blague avant tout, mais il y a tellement de choses vraies dedans que ça en devient sérieux.</p>
+          <p>Avant de continuer, active bien le son. Et si tu as des écouteurs, c’est encore mieux.</p>
+          <p class="tiny-note">Lis jusqu’en bas pour débloquer le bouton.</p>
+        </div>
+        <button id="acceptIntroBtn" type="button" class="btn btn-primary big" onclick="document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});document.getElementById('startScreen').classList.add('active')">OK, j’ai activé le son</button>
+      </div>
+    </section>
+
+    <section id="startScreen" class="screen start-screen">
+      <div class="rose-scene" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div><div class="petals"></div></div>
+      <div class="glass-card intro-card">
+        <div class="mini-label">Expérience privée</div>
+        <h1>Pour Anna</h1>
+        <p>Une petite application créée spécialement pour toi.</p>
+        <button id="startBtn" class="btn btn-primary big">Commencer l’expérience</button>
+      </div>
+    </section>
+
+    <section id="compatScreen" class="screen compatibility-screen">
+      <div class="top-glow"></div>
+      <div class="brand-row"><div class="logo-pulse"><span></span></div><div><p class="overline">Charlotte IA</p><h2>Compatibilité amoureuse</h2></div></div>
+      <div class="main-bubble">
+        <div class="ai-ring"><div class="ai-core">♡</div></div>
+        <h1>Bonjour Anna</h1>
+        <p id="statusText">Initialisation de l’analyse romantique...</p>
+        <button id="searchBtn" class="btn btn-disabled" disabled>Lancer une recherche</button>
+      </div>
+      <div class="profile-card hidden" id="profileCard">
+        <div class="avatar" id="avatarBox"><img id="avatarImg" alt="Photo de profil" /><span id="avatarInitials">?</span></div>
+        <div class="profile-info"><p class="profile-name" id="profileName">Recherche...</p><p class="profile-result" id="profileResult">Analyse en cours</p><div class="bar"><span id="barFill"></span></div></div>
+      </div>
+      <div class="checks hidden" id="checks"><div class="check"><span></span> Regard validé</div><div class="check"><span></span> Humour validé</div><div class="check"><span></span> Cœur sincère</div><div class="check"><span></span> Compatibilité maximale</div></div>
+      <button id="profileBtn" class="btn btn-primary profile-btn hidden">Aller sur la conversation</button>
+    </section>
+
+    <section id="chatScreen" class="screen chat-screen">
+      <div class="chat-phone">
+        <div class="chat-header"><div class="back-dot">‹</div><div><strong>Eliott</strong><small>en ligne maintenant</small></div></div>
+        <div class="chat-body" id="chatBody"><div class="empty-chat"><span>Conversation ouverte</span><p>Un message arrive...</p></div><button id="envelopeBtn" class="envelope hidden" aria-label="Ouvrir le message"><span class="notif">1</span><span class="flap"></span><span class="body-env">💌</span></button></div>
+        <div class="fake-input"><span>Écrire un message...</span><button>♡</button></div>
+      </div>
+    </section>
+
+    <section id="letterScreen" class="screen letter-screen">
+      <div class="letter-wrap"><div class="letter-header"><p>Message privé</p><h1>Joyeux anniversaire mon cœur</h1></div><article id="letterBox" class="love-letter"></article><button id="homeBtn" class="btn btn-primary home-btn hidden">Retour à l’accueil</button></div>
+    </section>
+
+    <section id="homeScreen" class="screen home-screen">
+      <div class="home-scroll">
+        <div class="home-hero"><p class="overline">Accueil</p><h1>Notre petit monde</h1><p>Un petit coin fait pour Anna, avec la lettre, les souvenirs, l’histoire de votre couple et le bouton 18 ans.</p></div>
+        <div class="home-grid">
+          <button id="openLetterBtn" class="home-card"><span>💌</span><h3>La lettre</h3><p>Relire le message d’anniversaire.</p></button>
+          <button id="openPhotosBtn" class="home-card"><span>📸</span><h3>Photos souvenir</h3><p>La galerie des souvenirs.</p></button>
+          <button id="openHistoryBtn" class="home-card"><span>📖</span><h3>Histoire de notre couple</h3><p>Votre livre, mois après mois.</p></button>
+          <button id="open18Btn" class="home-card home-card-18 locked-18" disabled><span>18</span><h3>18 ans</h3><p>Débloqué après la lettre, les photos et l’histoire.</p></button>
+        </div>
+        <button id="restartBtn" class="btn btn-soft">Revoir depuis le début</button>
+      </div>
+    </section>
+
+    <section id="photosScreen" class="screen photos-screen">
+      <div class="sub-page"><p class="overline">Souvenirs</p><h1>Photos souvenir</h1><p class="small-muted">Clique sur une photo pour ouvrir sa page. Les anecdotes arriveront bientôt.</p><div id="photoGrid" class="photo-grid"></div><button class="btn btn-primary backHomeBtn">Retour à l’accueil</button></div>
+    </section>
+
+    <section id="photoDetailScreen" class="screen photo-detail-screen">
+      <div class="sub-page detail-page"><button id="backPhotosBtn" class="btn btn-soft small-back">← Retour aux photos</button><img id="detailImg" class="detail-img" alt="Photo souvenir"><div class="detail-text"><p class="overline" id="detailCounter">Souvenir</p><h1 id="detailTitle">Photo souvenir</h1><p id="detailDesc">Description à ajouter plus tard.</p></div></div>
+    </section>
+
+    <section id="historyScreen" class="screen history-screen">
+      <div class="book-page">
+        <div class="book-top"><button class="btn btn-soft backHomeBtn">Accueil</button><div class="story-audio-controls"><button id="skipBackBtn" class="skip-btn hidden" aria-label="Audio précédent">⏪</button><button id="playMonthBtn" class="month-play">▶ Lire le mois</button><button id="skipNextBtn" class="skip-btn hidden" aria-label="Audio suivant">⏩</button></div></div>
+        <div class="helper-bubble" id="helperBubble"><strong>Charlotte</strong><p>Si tu as la flemme de lire, je peux t’aider. Clique sur le petit bouton play en haut à droite et je te raconterai le mois entier.</p><span></span></div>
+        <div class="book" id="book"><div class="page-paper"><p class="month-label" id="storyMonth">Octobre</p><h1 id="storyTitle">Titre</h1><div id="storyText" class="story-text"></div></div></div>
+        <div class="book-nav"><button id="prevPageBtn" class="btn btn-soft">← Page précédente</button><div id="pageIndicator">1 / 12</div><button id="nextPageBtn" class="btn btn-primary">Page suivante →</button></div>
+      </div>
+    </section>
+
+
+    <section id="birthdayScreen" class="screen birthday-screen">
+      <div class="birthday-stage birthday-door active" data-birthday-stage="door">
+        <div class="club-light"></div>
+        <div class="door-scene">
+          <div class="bouncer-shadow" aria-hidden="true"><span class="head"></span><span class="body"></span><span class="arm arm-left"></span><span class="arm arm-right"></span></div>
+          <div class="night-door"><span class="door-glow"></span><span class="door-line"></span></div>
+        </div>
+        <p class="club-overline">Contrôle à l’entrée</p>
+        <h1>Soirée 18 ans</h1>
+        <p class="birthday-muted">Le videur a besoin d’une preuve avant de laisser entrer Anna dans la zone noire et or.</p>
+        <button id="showIdBtn" class="club-btn primary">Donner ma carte d’identité</button>
+        <button class="club-btn ghost birthdayExitBtn">Retour à l’accueil</button>
+      </div>
+
+      <div class="birthday-stage birthday-contract" data-birthday-stage="contract">
+        <div class="contract-paper">
+          <p class="club-overline">Contrat de majorité</p>
+          <h1>Article 18.0</h1>
+          <p>En entrant ici, je reconnais officiellement que l’époque où je disais “je suis mineure” est terminée.</p>
+          <p>Je comprends que cette section est volontairement plus bordélique, plus noire, plus dorée, plus drôle, et beaucoup moins sage que le reste de l’application.</p>
+          <label class="old-check"><input id="oldCheck" type="checkbox"> <span>J’admets être vieille.</span></label>
+          <button id="enter18Btn" class="club-btn primary" disabled>Ouvrir la porte</button>
+          <button class="club-btn ghost birthdayBackDoorBtn">Retour devant la porte</button>
+        </div>
+      </div>
+
+      <div class="birthday-stage birthday-party" data-birthday-stage="home">
+        <div class="confetti-layer" aria-hidden="true"></div>
+        <div class="party-hero">
+          <p class="club-overline">Accès autorisé</p>
+          <h1 class="mega-18-title">18 ans</h1>
+          <p>Romantisme coupé. Néons allumés. Dignité en option.</p>
+        </div>
+        <div class="party-grid">
+          <button class="party-card" data-18-section="legal"><span>⚖️</span><h3>Dossier interdit</h3><p>Le fameux point légal, version dossier de boîte de nuit.</p></button>
+          <button class="party-card" data-18-section="photos"><span>📸</span><h3>Photos 18+</h3><p>Zone réservée aux futurs dossiers.</p></button>
+          <button class="party-card" data-18-section="bodycount"><span>💋</span><h3>Bodycount</h3><p>Compteur officiel et totalement pas sérieux.</p></button>
+          <button class="party-card" data-18-section="spotify"><span>🎵</span><h3>Spotify</h3><p>Le bouton qui ouvre la musique.</p></button>
+        </div>
+        <button class="club-btn exit birthdayExitBtn">Revenir à la version toute belle toute rose</button>
+      </div>
+
+      <div class="birthday-stage birthday-sub" data-birthday-stage="legal">
+        <div class="black-panel legal-panel">
+          <button class="club-btn ghost birthdayHome18Btn">← Retour au mode 18 ans</button>
+          <p class="club-overline">Dossier légal</p>
+          <h1>Le “détournement de mineur”, en vrai</h1>
+          <p class="warning-note">Petit rappel sérieux au milieu du bazar : cette page est informative et simplifiée, pas un conseil juridique.</p>
+          <div class="legal-block"><h3>1. Le mot qu’on entend souvent</h3><p>Dans le langage courant, on dit parfois “détournement de mineur”. En droit français moderne, les textes parlent surtout de protection des mineurs, d’atteinte sexuelle sur mineur, d’agression sexuelle, de viol, de corruption de mineur, ou de mise en péril des mineurs selon les faits.</p></div>
+          <div class="legal-block"><h3>2. Ce que dit le Code pénal</h3><p>L’article 227-22 du Code pénal vise le fait de favoriser ou tenter de favoriser la corruption d’un mineur. La peine de base indiquée est de 5 ans d’emprisonnement et 75 000 € d’amende.</p><p>L’article 227-25 vise l’atteinte sexuelle commise par un majeur sur un mineur de quinze ans, hors viol ou agression sexuelle, avec une peine indiquée de 7 ans d’emprisonnement et 100 000 € d’amende.</p></div>
+          <div class="legal-block"><h3>3. Au tribunal, ça dépend de quoi ?</h3><p>Les juges regardent l’âge, le consentement, l’écart d’âge, l’existence d’une autorité ou d’une contrainte, les messages, les preuves, le contexte et les circonstances aggravantes. Dès qu’il y a violence, contrainte, menace ou surprise, on sort du simple dossier “relation” et on entre dans des infractions sexuelles beaucoup plus graves.</p></div>
+          <div class="legal-block"><h3>4. Conclusion de la boîte</h3><p>Maintenant qu’Anna a 18 ans, le thème sert surtout de vanne d’anniversaire. Mais le consentement reste toujours la règle numéro un, même en mode fête, même avec des confettis, même avec un videur dessiné à l’arrache.</p></div>
+          <div class="sources"><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000043409063" target="_blank" rel="noopener">Source : Code pénal 227-22</a><a href="https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000043409095" target="_blank" rel="noopener">Source : Code pénal 227-25</a><a href="https://www.justice.gouv.fr/actualites/actualite/delits-crimes-sexuels-inceste-mineurs-mieux-proteges" target="_blank" rel="noopener">Source : Ministère de la Justice</a></div>
+        </div>
+      </div>
+
+      <div class="birthday-stage birthday-sub" data-birthday-stage="photos">
+        <div class="black-panel empty-18-photos">
+          <button class="club-btn ghost birthdayHome18Btn">← Retour au mode 18 ans</button>
+          <p class="club-overline">Photos 18+</p>
+          <h1>Galerie verrouillée</h1>
+          <p>Je n’ai pas de photo pour le moment, mais j’espère qu’un jour j’en aurai.</p>
+        </div>
+      </div>
+
+      <div class="birthday-stage birthday-sub" data-birthday-stage="bodycount">
+        <div class="black-panel body-panel">
+          <button class="club-btn ghost birthdayHome18Btn">← Retour au mode 18 ans</button>
+          <p class="club-overline">Stats privées</p>
+          <h1>Bodycount officiel</h1>
+          <div class="counter-18"><span id="bodyCountValue">130</span><small>score de départ</small></div>
+          <button id="addBodyBtn" class="club-btn primary">+1</button>
+          <div id="ratingBox" class="rating-box hidden">
+            <h3>Notation du passage</h3>
+            <div id="starRow" class="stars" aria-label="notation"><button data-star="1">★</button><button data-star="2">★</button><button data-star="3">★</button><button data-star="4">★</button><button data-star="5">★</button></div>
+            <textarea id="ratingComment" placeholder="Petit commentaire : bien, pas bien, incroyable, à refaire..."></textarea>
+            <button id="submitRatingBtn" class="club-btn primary">Envoyer et ajouter +1</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="birthday-stage birthday-sub" data-birthday-stage="spotify">
+        <div class="black-panel spotify-panel">
+          <button class="club-btn ghost birthdayHome18Btn">← Retour au mode 18 ans</button>
+          <p class="club-overline">Musique</p>
+          <h1>Playlist / sons</h1>
+          <div class="volume-card">
+            <label for="partyVolumeRange">Volume de la musique de fond</label>
+            <div class="volume-row">
+              <input id="partyVolumeRange" type="range" min="0" max="100" value="16" />
+              <strong id="partyVolumeValue">16%</strong>
+            </div>
+            <p>Tu peux baisser ou monter directement l’ambiance du mode 18 ans ici.</p>
+          </div>
+          <a class="club-btn spotify big-link" href="https://open.spotify.com/track/0tGXgOfEgWyiAADDfoslB9?si=i6kwXP7VS-KwZ-4PfkByQQ" target="_blank" rel="noopener">🎵 Ouvrir la musique spéciale</a>
+          <p class="spotify-note">Le lien Spotify reste séparé de la musique de fond de l’application.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <audio id="audioIntro" preload="auto" src="assets/audio/intro.mp3"></audio>
+  <audio id="audioScan" preload="auto" src="assets/audio/scan.mp3"></audio>
+  <audio id="audioChat" preload="auto" src="assets/audio/chat.mp3"></audio>
+  <audio id="audioLetter" preload="auto" src="assets/audio/letter_intro.mp3"></audio>
+  <audio id="audioGrandCedre" preload="auto" src="assets/audio/grand-cedre.m4a"></audio>
+  <audio id="audioSectionPhotos" preload="auto" src="assets/audio/section-photos.mp3"></audio>
+  <audio id="audioSectionLetter" preload="auto" src="assets/audio/section-letter.mp3"></audio>
+  <audio id="audioSectionHistory" preload="auto" src="assets/audio/section-history.mp3"></audio>
+  <audio id="audioStoryOct1" preload="auto" src="assets/audio/story-oct-1.mp3"></audio>
+  <audio id="audioStoryOct2" preload="auto" src="assets/audio/story-oct-2.mp3"></audio>
+  <audio id="audioStoryNov1" preload="auto" src="assets/audio/story-nov-1.mp3"></audio>
+  <audio id="audioStoryNov2" preload="auto" src="assets/audio/story-nov-2.mp3"></audio>
+  <audio id="audioStoryDec1" preload="auto" src="assets/audio/story-dec-1.mp3"></audio>
+  <audio id="audioStoryDec2" preload="auto" src="assets/audio/story-dec-2.mp3"></audio>
+  <audio id="audioStoryJan1" preload="auto" src="assets/audio/story-jan-1.mp3"></audio>
+  <audio id="audioStoryJan2" preload="auto" src="assets/audio/story-jan-2.mp3"></audio>
+  <audio id="audioStoryFeb1" preload="auto" src="assets/audio/story-feb-1.mp3"></audio>
+  <audio id="audioStoryFeb2" preload="auto" src="assets/audio/story-feb-2.mp3"></audio>
+  <audio id="audioStoryMar1" preload="auto" src="assets/audio/story-mar-1.mp3"></audio>
+  <audio id="audioStoryMar2" preload="auto" src="assets/audio/story-mar-2.mp3"></audio>
+  <audio id="audioStoryApr1" preload="auto" src="assets/audio/story-apr-1.mp3"></audio>
+  <audio id="audioStoryApr2" preload="auto" src="assets/audio/story-apr-2.mp3"></audio>
+  <audio id="audioStoryMay1" preload="auto" src="assets/audio/story-may-1.mp3"></audio>
+  <audio id="audioStoryMay2" preload="auto" src="assets/audio/story-may-2.mp3"></audio>
+  <audio id="audioStoryJun1" preload="auto" src="assets/audio/story-jun-1.mp3"></audio>
+  <audio id="audioStoryJun2" preload="auto" src="assets/audio/story-jun-2.mp3"></audio>
+  <audio id="audioBouncer" preload="auto" src="assets/audio/bouncer.mp3"></audio>
+  <audio id="audioClubIntro" preload="auto" src="assets/audio/club-intro.mp3"></audio>
+  <audio id="audioPartyBg" preload="auto" loop src="assets/audio/party-bg.mp3"></audio>
+  <audio id="audioJarvisLegal" preload="auto" src="assets/audio/jarvis-legal.mp3"></audio>
+  <audio id="audioJarvisPhotos" preload="auto" src="assets/audio/jarvis-photos.mp3"></audio>
+  <audio id="audioJarvisBodycount" preload="auto" src="assets/audio/jarvis-bodycount.mp3"></audio>
+  <audio id="audioJarvisSpotify" preload="auto" src="assets/audio/jarvis-spotify.mp3"></audio>
+  <script src="script.js"></script>
+</body>
+</html>

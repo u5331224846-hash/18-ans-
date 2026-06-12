@@ -1,0 +1,120 @@
+
+const screens = {
+  start: document.getElementById('startScreen'), compat: document.getElementById('compatScreen'), chat: document.getElementById('chatScreen'), letter: document.getElementById('letterScreen'), home: document.getElementById('homeScreen'), photos: document.getElementById('photosScreen'), photoDetail: document.getElementById('photoDetailScreen'), history: document.getElementById('historyScreen'), birthday: document.getElementById('birthdayScreen')
+};
+const audio = {
+  intro: document.getElementById('audioIntro'), scan: document.getElementById('audioScan'), chat: document.getElementById('audioChat'), letter: document.getElementById('audioLetter'), grand: document.getElementById('audioGrandCedre'),
+  sectionPhotos: document.getElementById('audioSectionPhotos'), sectionLetter: document.getElementById('audioSectionLetter'), sectionHistory: document.getElementById('audioSectionHistory'),
+  audioStoryOct1: document.getElementById('audioStoryOct1'), audioStoryOct2: document.getElementById('audioStoryOct2'), audioStoryNov1: document.getElementById('audioStoryNov1'), audioStoryNov2: document.getElementById('audioStoryNov2')
+};
+const els = {
+  lock: document.getElementById('audioLock'), startBtn: document.getElementById('startBtn'), searchBtn: document.getElementById('searchBtn'), statusText: document.getElementById('statusText'), profileCard: document.getElementById('profileCard'), avatarBox: document.getElementById('avatarBox'), avatarImg: document.getElementById('avatarImg'), avatarInitials: document.getElementById('avatarInitials'), profileName: document.getElementById('profileName'), profileResult: document.getElementById('profileResult'), barFill: document.getElementById('barFill'), checks: document.getElementById('checks'), profileBtn: document.getElementById('profileBtn'), envelopeBtn: document.getElementById('envelopeBtn'), homeBtn: document.getElementById('homeBtn'), restartBtn: document.getElementById('restartBtn'),
+  openLetterBtn: document.getElementById('openLetterBtn'), openPhotosBtn: document.getElementById('openPhotosBtn'), openHistoryBtn: document.getElementById('openHistoryBtn'), open18Btn: document.getElementById('open18Btn'), photoGrid: document.getElementById('photoGrid'), backPhotosBtn: document.getElementById('backPhotosBtn'), detailImg: document.getElementById('detailImg'), detailCounter: document.getElementById('detailCounter'), detailTitle: document.getElementById('detailTitle'), detailDesc: document.getElementById('detailDesc'), letterBox: document.getElementById('letterBox'),
+  playMonthBtn: document.getElementById('playMonthBtn'), helperBubble: document.getElementById('helperBubble'), storyMonth: document.getElementById('storyMonth'), storyTitle: document.getElementById('storyTitle'), storyText: document.getElementById('storyText'), prevPageBtn: document.getElementById('prevPageBtn'), nextPageBtn: document.getElementById('nextPageBtn'), pageIndicator: document.getElementById('pageIndicator')
+};
+let locked = false;
+let currentStory = 0;
+let activeSequence = null;
+const letterParagraphs = ["Ma Anna,", "Aujourd’hui, tu vas avoir 18 ans, et moi, je me rends compte de la chance immense que j’ai de pouvoir être à tes côtés pour ce moment si important de ta vie.", "Ça va bientôt faire sept mois que tu es entrée dans mon cœur, mais j’ai l’impression que mon amour pour toi existe depuis bien plus longtemps. Comme si, quelque part, une partie de moi t’attendait déjà avant même de te connaître.", "Anna, je veux que tu saches une chose : je t’aime de tout mon cœur. Pas juste avec des mots, pas juste quand tout va bien, pas juste dans les moments simples. Je t’aime dans les détails, dans ton sourire, dans ta voix, dans ta manière d’être, dans tout ce qui fait que tu es toi.", "Depuis que tu es là, tu as rendu ma vie plus belle. Tu m’as appris ce que ça voulait dire de tenir vraiment à quelqu’un, de vouloir son bonheur avant même le sien, de sourire juste parce que l’autre existe. Avec toi, même les jours ordinaires deviennent précieux.", "Je ne suis peut-être pas parfait, et je ne le serai jamais totalement. Mais une chose est sûre : mon amour pour toi est sincère. Je veux prendre soin de toi, te respecter, te soutenir, te faire rire, te rassurer quand ça ne va pas, et te rappeler chaque jour à quel point tu comptes pour moi.", "Sept mois, ce n’est peut-être qu’un début, mais pour moi, c’est déjà une partie magnifique de mon histoire. Une histoire où ton prénom, Anna, a pris une place que personne d’autre ne pourra remplacer.", "Pour tes 18 ans, je ne veux pas seulement te souhaiter un joyeux anniversaire. Je veux te dire merci. Merci d’être toi. Merci d’être dans ma vie. Merci de me faire ressentir un amour aussi fort, aussi pur, aussi vrai.", "Je t’aime, Anna. Et si je devais choisir encore une fois, parmi tout le monde, dans toutes les vies possibles, je te choisirais toi. Toujours toi.", "Joyeux anniversaire mon cœur.", "Eliott"];
+const storyPages = [{"month": "Octobre", "title": "Octobre, là où tout a commencé", "text": "Tout a commencé au foyer. Je me rappellerai toujours de la toute première fois où on s'est adressé la parole : une éduc me faisait visiter les lieux et quand on est arrivés dans la cuisine, elle m’a proposé des bonbons. J'ai répondu « non » tout court, un peu dans ma bulle. Mais en vrai, notre rencontre c'était bien plus brutal que ça avec toute l'histoire autour de Pauline... On pourrait en faire un livre tellement c'était le bordel, mais avec le recul, qu'est-ce que c’était marrant !\n\nPendant les deux ou trois premiers jours, on ne s'est pas reparlé. Moi, je te voyais passer, je te surveillais du coin de l’œil en restant discret, mais je savais déjà que tu étais la plus belle. Puis Lucie t’a donné mon numéro, et là, on a enfin commencé à se parler pour de vrai. Je n'oublierai jamais ces matins où je me forçais à me lever à 9h, juste parce que je savais que toi tu étais déjà debout. On se retrouvait tous les deux dans la salle d’activité. À ce moment-là, je savais que t’avais encore ton ex en tête, Hyton, et que je n'étais pas forcément la priorité dans ta vie. Mais on a continué à se rapprocher, à passer des heures sur le canapé gris ou dans ta chambre à se faire des câlins.\n\nEt puis, il y a eu ce soir-là. Notre premier bisou. On était sur le canapé gris, c'était le moment parfait... à part Ismael qui tapait comme un malade sur la vitre juste à côté pour nous casser notre délire ! Mais c'est pas grave, parce que depuis ce bisou, on ne s'est plus jamais lâchés.", "audioKey": "audioStoryOct1"}, {"month": "Octobre", "title": "Entre planques et forêt", "text": "Le foyer, c’était aussi nos premières galères de rebelles. Comme le soir où je me suis caché dans ta chambre pour dormir avec toi. Les éducs ont retourné tout le bâtiment pour me trouver ! Ils ont fini par me cramer et j’ai essayé de négocier avec Ali pour rester, mais il n'a rien voulu savoir. On rigolait avec notre fameuse règle de la « porte ouverte », et Ali qui manquait de nous griller toutes les deux minutes.\n\nLa fin du mois a été plus tendue. Il y a eu des événements qui ont tout remis en question, on s’est disputés, on était en plein flirt mais c’était fragile. On est partis aux Sables-d'Olonne le 31 octobre pour Halloween, et c'était le bordel complet. On a dormi dans un parking souterrain, on a fini chez mon pote Noam...\n\nC’est finalement dans une forêt, après s'être bien engueulés pour mettre les choses à plat, qu’on a décidé d'arrêter les conneries. On s’est mis ensemble officiellement ce soir-là, en se jurant que plus rien ne viendrait nous séparer et qu'on ne se ferait plus jamais de mal. C’était le vrai départ de NOUS.", "audioKey": "audioStoryOct2"}, {"month": "Novembre", "title": "Notre petite routine et les soirées chez Hugo", "text": "Le début du mois de novembre a été beaucoup plus calme. On a commencé à installer notre petite routine à nous, et franchement, j'adorais ça. Nos câlins du matin, nos journées passées l’un collé à l’autre, et nos sorties le soir.\n\nPuisqu'on se dit tout dans ce carnet, il faut aussi qu'on parle de mes défauts. Je sais que pendant ces soirées-là, j'ai souvent été aigri, et je m'en excuse encore aujourd'hui. J'avais mes humeurs, mais il faut que tu saches que même quand je faisais la gueule, au fond, je profitais à fond d'être avec toi et j'étais heureux.\n\nComme il commençait à faire super froid dehors, on a fini par rentrer et on a fait nos premières soirées en intérieur, chez Hugo. C'étaient de sacrées soirées. Il y avait Yoann qui était à fond sur Louise et qui essayait de gérer son truc, pendant que nous deux on trinquait, on buvait et on faisait juste la fête. On était dans notre bulle, tout semblait tellement simple.", "audioKey": "audioStoryNov1"}, {"month": "Novembre", "title": "L'épreuve, le pardon et le sapin de Noël", "text": "Mais novembre n'a pas été facile jusqu'au bout. Il y a eu l'histoire avec Alexandre. Je ne vais pas te mentir, cette période m'a anéanti intérieurement. J'étais vraiment brisé. Je t'avais donné toute ma confiance, on n'était plus dans un simple flirt, on était un vrai couple en train de construire quelque chose de solide, et j'ai cru que tout s'effondrait. Ça m'a fait horriblement mal.\n\nMais la vérité, c'est que je ne pouvais pas te laisser partir. Je t'aimais déjà beaucoup trop. Ça a été dur de m'en remettre, mais j'ai fait le choix d'accepter ce qui est arrivé parce que je voulais qu'on avance ensemble. Je ne regretterai jamais ce choix.\n\nParce que grâce à ça, on a réussi à remonter la pente et on a fini le mois ensemble, plus soudés. On est allés au Marché de Noël avec Yoann. On est allés voir le spectacle de Noël illuminé sur la façade de la Mairie de Tours. Il faisait froid, l'ambiance de la ville était magique, et après tout ce qu'on avait traversé, on a clôturé ce mois avec ce magnifique bisou, juste devant le grand sapin.", "audioKey": "audioStoryNov2"}];
+const gallery = Array.from({length:20}, (_,i)=>({src:`assets/img/gallery/photo-${i+1}.jpeg`, title:`Souvenir ${i+1}`, desc:'Description à ajouter plus tard. Tu pourras mettre ici l’anecdote exacte de cette photo.'}));
+
+function renderLetter() { els.letterBox.innerHTML = letterParagraphs.map(p => `<p>${escapeHtml(p)}</p>`).join(''); }
+function escapeHtml(str) { return String(str).replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+function show(which) { Object.values(screens).forEach(s => s.classList.remove('active')); screens[which].classList.add('active'); }
+function setLock(on) { locked = on; els.lock.classList.toggle('hidden', !on); }
+function stopAll() { Object.values(audio).forEach(a => { a.pause(); a.currentTime = 0; }); activeSequence = null; setLock(false); }
+function stopVoiceOnly() { [audio.intro,audio.scan,audio.chat,audio.letter,audio.sectionPhotos,audio.sectionLetter,audio.sectionHistory,audio.audioStoryOct1,audio.audioStoryOct2,audio.audioStoryNov1,audio.audioStoryNov2].forEach(a => { a.pause(); a.currentTime=0; }); activeSequence = null; setLock(false); }
+function playAudio(a, onEnd, lock=true) {
+  stopVoiceOnly();
+  if(lock) setLock(true);
+  a.currentTime = 0;
+  const done = () => { a.removeEventListener('ended', done); if(lock) setLock(false); if(onEnd) onEnd(); };
+  a.addEventListener('ended', done);
+  const p = a.play();
+  if(p && p.catch) p.catch(() => done());
+}
+function activateSearch() { els.statusText.textContent='Charlotte est prête. Lance une recherche pour trouver le meilleur profil.'; els.searchBtn.disabled=false; els.searchBtn.className='btn btn-primary'; }
+
+els.startBtn.addEventListener('click',()=>{ if(locked) return; show('compat'); els.statusText.textContent='Bienvenue sur notre appli de compatibilité amoureuse...'; playAudio(audio.intro, activateSearch); });
+const steps=[
+  {t:900,n:'Tim',i:'T',r:'Non compatible',pct:9,img:'assets/img/profiles/tim.jpeg'},
+  {t:3000,n:'Alexandre',i:'A',r:'Non compatible',pct:4,img:'assets/img/profiles/alexandre.jpeg'},
+  {t:5050,n:'Ayton',i:'A',r:'Non compatible',pct:12,img:'assets/img/profiles/ayton.jpeg'},
+  {t:7350,n:'Eliott',i:'E',r:'Compatibilité à 100 %',pct:100,img:'assets/img/profiles/eliott.jpeg',final:true}
+];
+function setProfile(s) {
+  els.profileCard.classList.remove('hidden'); els.avatarBox.classList.toggle('final', !!s.final); els.avatarImg.src=s.img; els.avatarInitials.textContent=s.i; els.profileName.textContent=s.n; els.profileResult.textContent=s.r; els.barFill.style.width='0%'; requestAnimationFrame(()=>{ els.barFill.style.width=s.pct+'%'; });
+  if(!s.final) { els.profileCard.classList.add('is-shaking'); setTimeout(()=>els.profileCard.classList.remove('is-shaking'),420); }
+  else { els.statusText.textContent='Profil parfait trouvé.'; els.checks.classList.remove('hidden'); [...els.checks.children].forEach((c,idx)=>setTimeout(()=>c.classList.add('done'),idx*450)); setTimeout(()=>{ els.profileBtn.classList.remove('hidden'); els.profileBtn.scrollIntoView({behavior:'smooth',block:'center'}); },2300); }
+}
+els.searchBtn.addEventListener('click',()=>{
+  if(locked || els.searchBtn.disabled) return;
+  els.searchBtn.disabled=true; els.searchBtn.className='btn btn-disabled'; els.statusText.textContent='Recherche des profils en cours...'; els.profileCard.classList.add('hidden'); els.checks.classList.add('hidden'); els.profileBtn.classList.add('hidden'); [...els.checks.children].forEach(c=>c.classList.remove('done'));
+  playAudio(audio.scan, ()=>{ if(els.profileBtn.classList.contains('hidden')) { els.profileBtn.classList.remove('hidden'); els.profileBtn.scrollIntoView({behavior:'smooth',block:'center'}); } });
+  steps.forEach(s=>setTimeout(()=>setProfile(s),s.t));
+});
+els.profileBtn.addEventListener('click',()=>{ if(locked) return; show('chat'); els.envelopeBtn.classList.add('hidden'); els.envelopeBtn.classList.remove('arrive'); playAudio(audio.chat); setTimeout(()=>{ els.envelopeBtn.classList.remove('hidden'); requestAnimationFrame(()=>els.envelopeBtn.classList.add('arrive')); },1000); });
+els.envelopeBtn.addEventListener('click',()=>{ if(locked) return; show('letter'); els.homeBtn.classList.add('hidden'); playAudio(audio.letter); setTimeout(()=>screens.letter.scrollTo({top:0,behavior:'auto'}),50); });
+screens.letter.addEventListener('scroll',()=>{ const el=screens.letter; if(el.scrollTop+el.clientHeight>=el.scrollHeight-50) els.homeBtn.classList.remove('hidden'); });
+els.homeBtn.addEventListener('click',()=>{ if(locked) return; stopAll(); show('home'); });
+els.restartBtn.addEventListener('click',()=>{ if(locked) return; stopAll(); show('start'); resetCompat(); });
+function resetCompat() { els.searchBtn.disabled=true; els.searchBtn.className='btn btn-disabled'; els.profileCard.classList.add('hidden'); els.checks.classList.add('hidden'); els.profileBtn.classList.add('hidden'); els.homeBtn.classList.add('hidden'); }
+
+els.openLetterBtn.addEventListener('click',()=>{ if(locked) return; show('letter'); els.homeBtn.classList.remove('hidden'); setTimeout(()=>screens.letter.scrollTo({top:0,behavior:'auto'}),50); playAudio(audio.sectionLetter); });
+els.openPhotosBtn.addEventListener('click',()=>{ if(locked) return; show('photos'); playAudio(audio.sectionPhotos); });
+els.openHistoryBtn.addEventListener('click',()=>{ if(locked) return; show('history'); renderStory(0); playAudio(audio.sectionHistory); });
+els.open18Btn.addEventListener('click',()=>{ if(locked) return; show('birthday'); });
+document.querySelectorAll('.backHomeBtn').forEach(btn=>btn.addEventListener('click',()=>{ if(locked) return; stopAll(); show('home'); }));
+
+function renderGallery() {
+  els.photoGrid.innerHTML = gallery.map((g,i)=>`<button class="photo-tile" data-index="${i}"><img src="${g.src}" alt="${escapeHtml(g.title)}"><span>${i+1}</span></button>`).join('');
+  els.photoGrid.querySelectorAll('.photo-tile').forEach(btn=>btn.addEventListener('click',()=>openPhoto(Number(btn.dataset.index))));
+}
+function openPhoto(i) { if(locked) return; const g=gallery[i]; els.detailImg.src=g.src; els.detailCounter.textContent=`Souvenir ${i+1} / ${gallery.length}`; els.detailTitle.textContent=g.title; els.detailDesc.textContent=g.desc; show('photoDetail'); }
+els.backPhotosBtn.addEventListener('click',()=>{ if(locked) return; show('photos'); });
+
+function paragraphHtml(txt) { return txt.split(/\n\s*\n/g).map(p=>`<p>${escapeHtml(p)}</p>`).join(''); }
+function renderStory(index) {
+  currentStory = Math.max(0, Math.min(storyPages.length-1, index));
+  const p = storyPages[currentStory];
+  els.storyMonth.textContent = p.month;
+  els.storyTitle.textContent = p.title;
+  els.storyText.innerHTML = paragraphHtml(p.text);
+  els.pageIndicator.textContent = `${currentStory+1} / ${storyPages.length}`;
+  els.prevPageBtn.disabled = currentStory === 0;
+  els.nextPageBtn.disabled = currentStory === storyPages.length-1;
+  els.playMonthBtn.textContent = `▶ Lire ${p.month}`;
+  const paper = document.querySelector('.page-paper'); paper.style.animation='none'; paper.offsetHeight; paper.style.animation='pageOpen .7s ease both';
+}
+els.prevPageBtn.addEventListener('click',()=>{ if(locked) return; stopVoiceOnly(); renderStory(currentStory-1); });
+els.nextPageBtn.addEventListener('click',()=>{ if(locked) return; stopVoiceOnly(); renderStory(currentStory+1); });
+els.playMonthBtn.addEventListener('click',()=>{ if(locked) return; playCurrentMonth(); });
+function playCurrentMonth() {
+  const month = storyPages[currentStory].month;
+  const indices = storyPages.map((p,i)=>p.month===month?i:null).filter(i=>i!==null);
+  activeSequence = {month, pos:0, indices};
+  setLock(true);
+  playStoryIndex(indices[0]);
+}
+function playStoryIndex(pageIndex) {
+  if(!activeSequence) return;
+  renderStory(pageIndex);
+  const a = audio[storyPages[pageIndex].audioKey];
+  a.currentTime = 0;
+  const done = () => {
+    a.removeEventListener('ended', done);
+    if(!activeSequence) { setLock(false); return; }
+    activeSequence.pos += 1;
+    if(activeSequence.pos < activeSequence.indices.length) { playStoryIndex(activeSequence.indices[activeSequence.pos]); }
+    else { activeSequence = null; setLock(false); }
+  };
+  a.addEventListener('ended', done);
+  const p = a.play();
+  if(p && p.catch) p.catch(()=>done());
+}
+
+window.addEventListener('beforeunload', stopAll);
+renderLetter();
+renderGallery();
+renderStory(0);
